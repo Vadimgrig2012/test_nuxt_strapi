@@ -1,0 +1,26 @@
+# dependencies
+**/node_modules/
+
+# Nuxt
+frontend/.nuxt/
+frontend/.output/
+frontend/dist/
+
+# Strapi
+server/.cache/
+server/build/
+server/.tmp/
+server/dist/
+server/types/generated/
+
+# env
+**/.env
+**/.env.*
+
+# logs
+**/npm-debug.log*
+**/yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db

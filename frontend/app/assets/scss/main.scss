@@ -1,0 +1,234 @@
+/* =========================================================
+   GLOBAL STYLES (Nuxt 3) — rem-first + fluid root font-size
+   File: assets/scss/main.scss
+========================================================= */
+
+/* -----------------------------
+   1) Fluid root font-size
+   (px здесь допустимы: это настройка масштаба)
+------------------------------ */
+html {
+	font-size: clamp(9.5px, calc(100vw / 1903 * 10), 10px);
+}
+
+/* TABLET */
+@media (max-width: 1024px) {
+	html {
+		font-size: clamp(9.5px, calc(100vw / 768 * 10), 10px);
+	}
+}
+
+/* MOBILE */
+@media (max-width: 767px) {
+	html {
+		font-size: clamp(9.5px, calc(100vw / 320 * 10), 10px);
+	}
+}
+
+/* -----------------------------
+   2) CSS Reset / Base
+------------------------------ */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+
+	/* базовый размер текста */
+	font-size: 1.6rem; /* ~16px при 1rem=10px */
+	line-height: 1.5;
+
+	/* “приятный” рендер шрифтов */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+
+	/* чтобы горизонтально не “выпирало” из-за анимаций/трансформаций */
+	overflow-x: clip;
+
+	// если захочешь глобально задать шрифт — можно тут:
+	font-family:
+		system-ui,
+		-apple-system,
+		Segoe UI,
+		Roboto,
+		Arial,
+		sans-serif;
+	color: #111;
+	background: #d8d8d8;
+}
+
+/* -----------------------------
+   3) Typography defaults
+------------------------------ */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+	margin: 0;
+}
+
+ul,
+ol {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+strong,
+b {
+	font-weight: 700;
+}
+
+/* Чтобы длинные слова/URL не ломали верстку */
+p,
+li,
+a {
+	overflow-wrap: anywhere;
+}
+
+/* -----------------------------
+   4) Media elements (img/video/svg)
+------------------------------ */
+img,
+picture,
+video,
+canvas,
+svg {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+
+/* svg иногда ломает кликабельность/размеры — пусть ведёт себя предсказуемо */
+svg {
+	flex-shrink: 0;
+}
+
+/* -----------------------------
+   5) Form elements defaults
+------------------------------ */
+input,
+button,
+textarea,
+select {
+	font: inherit;
+	color: inherit;
+}
+
+button {
+	padding: 0;
+	border: 0;
+	background: transparent;
+	cursor: pointer;
+}
+
+textarea {
+	resize: vertical;
+}
+
+/* Убираем дефолтные стили, чтобы было проще “дизайн-фёрст” */
+input,
+textarea,
+select {
+	margin: 0;
+	border: 0;
+	outline: none;
+	background: transparent;
+}
+
+/* Скрываем крестик очистки в некоторых браузерах (опционально) */
+input[type='search']::-webkit-search-cancel-button {
+	-webkit-appearance: none;
+}
+
+/* -----------------------------
+   6) Tables
+------------------------------ */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* -----------------------------
+   7) Accessibility helpers
+------------------------------ */
+:focus-visible {
+	outline: 0.2rem solid currentColor;
+	outline-offset: 0.2rem;
+}
+
+/* “Скрыто визуально, но доступно скринридеру” */
+.visually-hidden {
+	position: absolute !important;
+	width: 0.1rem;
+	height: 0.1rem;
+	padding: 0;
+	margin: -0.1rem;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* -----------------------------
+   8) Motion preferences
+   (важно для доступности + чтобы GSAP не конфликтовал)
+------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+	html:focus-within {
+		scroll-behavior: auto;
+	}
+
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}
+
+/* -----------------------------
+   9) Global layout helpers
+   (wrapper и секции)
+------------------------------ */
+
+/* Глобальная обёртка под max-width: 1920px.
+   В rem: 192rem (потому что 1rem≈10px) */
+.hero-wrapper {
+	width: 100%;
+	max-width: 192rem;
+	margin: 0 auto;
+}
+
+/* Если удобно — общий горизонтальный паддинг,
+   чтобы контент не лип к краям на узких экранах.
+   (можешь потом менять в зависимости от дизайна) */
+.container {
+	width: 100%;
+	max-width: 192rem;
+	margin: 0 auto;
+	// padding-inline: 2rem;
+}
+
+/* Утилита, чтобы секции не прилипали друг к другу */
+// .section {
+// 	padding-block: 6rem;
+// }
