@@ -1,4 +1,5 @@
 <template>
+	<NuxtLoadingIndicator />
 	<NuxtLayout>
 		<NuxtPage />
 	</NuxtLayout>
@@ -34,6 +35,6 @@ useSeoMeta({
 	ogSiteName: appConfig.site.name,
 	ogType: 'website',
 	ogUrl: () => `${appConfig.site.url}${route.fullPath}`,
-	ogLocale: 'ru_RU'
+	ogLocale: appConfig.site.locale
 })
 </script>

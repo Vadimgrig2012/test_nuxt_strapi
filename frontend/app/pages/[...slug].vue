@@ -9,9 +9,7 @@
 
 <script setup>
 const event = useRequestEvent()
-if (event) {
-	event.node.res.statusCode = 404
-}
+if (event) event.node.res.statusCode = 404
 
 useSeoMeta({
 	title: '404 - Страница не найдена',
