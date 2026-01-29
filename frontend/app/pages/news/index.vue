@@ -34,7 +34,6 @@ const { data, pending, error } = await useAsyncData('news:list', () =>
 	getNewsList()
 )
 
-// TODO: в каких ситуациях использовать computed
 const list = computed(() => data.value || [])
 useSeoMeta({
 	title: 'Новости',

@@ -5,7 +5,7 @@ function sleep(ms) {
 }
 
 export async function getNewsList() {
-	await sleep(150)
+	await sleep(5)
 	return newsMock
 		.slice()
 		.sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1))
@@ -19,7 +19,7 @@ export async function getNewsList() {
 }
 
 export async function getNewsBySlug(slug) {
-	await sleep(150)
+	await sleep(5)
 	const item = newsMock.find(item => item.slug === slug)
 	return item || null
 }

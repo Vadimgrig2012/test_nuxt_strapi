@@ -31,22 +31,29 @@ import { getNewsBySlug } from '@/composables/news'
 const route = useRoute()
 const slug = String(route.params.slug || '')
 
-const { data, pending } = await useAsyncData(
+// Загружаем новость
+const { data } = await useAsyncData(
 	() => `news/${slug}`,
 	() => getNewsBySlug(slug)
 )
 
+// Если новость не нашлась тогда вызываем ошибку 404
+if (!data.value) {
+	throw createError({
+		statusCode: 404,
+		statusMessage: 'Not Found',
+		message: 'Новость не найдена'
+	})
+}
+
+// Данные динамические и вычисляемые
 const item = computed(() => data.value)
 
+// SEO заголовки динамические
 useSeoMeta({
 	title: () => item.value?.seo?.title || item.value?.title || 'Новость',
 	description: () => item.value?.seo?.description || item.value?.excerpt || ''
 })
-
-const event = useRequestEvent()
-if (event && !item.value && !pending.value) {
-	event.node.res.statusCode = 404
-}
 </script>
 
 <style scoped lang="scss">
