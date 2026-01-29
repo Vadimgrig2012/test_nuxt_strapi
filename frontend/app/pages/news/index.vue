@@ -4,3 +4,10 @@
 		<p>Тут будет список новостей из Strapi.</p>
 	</section>
 </template>
+
+<script setup>
+useSeoMeta({
+	title: 'Новости',
+	description: 'Архив новостей'
+})
+</script>
