@@ -31,4 +31,9 @@ import { mainNav } from '@/config/navigation.js'
 .header__link.is-active {
 	text-decoration: underline;
 }
+
+.header__nav {
+	display: flex;
+	gap: 2rem;
+}
 </style>
