@@ -20,6 +20,7 @@ server/types/generated/
 # logs
 **/npm-debug.log*
 **/yarn-error.log*
+!.env.example
 
 # OS
 .DS_Store
