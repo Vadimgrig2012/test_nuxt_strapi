@@ -1,0 +1,40 @@
+{
+  "collectionName": "components_seo_shared_seos",
+  "info": {
+    "displayName": "shared.seo",
+    "icon": "chartCircle"
+  },
+  "options": {},
+  "attributes": {
+    "metaTitle": {
+      "type": "string",
+      "required": true
+    },
+    "metaDescription": {
+      "type": "text",
+      "required": true
+    },
+    "metaRobots": {
+      "type": "string",
+      "default": "index,follow"
+    },
+    "canonicalURL": {
+      "type": "string"
+    },
+    "openGraphTitle": {
+      "type": "string"
+    },
+    "openGraphDescription": {
+      "type": "string"
+    },
+    "openGraphImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    }
+  },
+  "config": {}
+}
