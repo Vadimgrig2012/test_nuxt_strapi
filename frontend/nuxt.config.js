@@ -15,5 +15,9 @@ export default defineNuxtConfig({
 				'@scss': fileURLToPath(new URL('./assets/scss', import.meta.url))
 			}
 		}
+		// server: {
+		// 	allowedHosts: 'all',
+		// 	host: true
+		// }
 	}
 })
