@@ -36,7 +36,6 @@ export async function fetchNewsBySlug(slug) {
 	if (!item) {
 		throw createError({
 			statusCode: 404,
-			statusMessage: 'Not Found',
 			message: 'Новость не найдена'
 		})
 	}

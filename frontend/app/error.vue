@@ -12,8 +12,12 @@
 		>
 			Ошибка {{ statusCode }}
 		</h1>
-		<p v-if="statusCode === 404">Такой страницы не существует.</p>
-		<p v-else>Произошла ошибка. Попробуй обновить страницу позже.</p>
+		<p v-if="statusCode === 404">
+			{{ message || 'Такой страницы не существует.' }}
+		</p>
+		<p v-else>
+			{{ message || 'Произошла ошибка. Попробуй обновить страницу позже.' }}
+		</p>
 
 		<button
 			type="button"
@@ -43,6 +47,9 @@ const props = defineProps({
 const isDev = process.dev
 
 const statusCode = computed(() => props.error?.statusCode || 500)
+const message = computed(
+	() => props.error?.message || props.error?.statusMessage || ''
+)
 
 function goHome() {
 	clearError({ redirect: '/' })

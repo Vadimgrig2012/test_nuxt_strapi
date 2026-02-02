@@ -17,39 +17,30 @@ import { fetchNewsBySlug } from '@/services/news'
 const route = useRoute()
 const slug = computed(() => String(route.params.slug || ''))
 
-const { data: news } = await useAsyncData(
-	() => `news:${slug}`,
+const { data: news, error } = await useAsyncData(
+	() => `news:${slug.value}`,
 	() => fetchNewsBySlug(slug.value),
 	{ watch: [slug] }
 )
 
-watchEffect(() => {
-	if (news.value === undefined) return
-
-	if (!news.value) {
-		showError({
-			statusCode: 404,
-			message: 'Новость не найдена'
-		})
-	}
-})
-
-watchEffect(() => {
-	if (!news.value) return
-	const title = news.value?.seo?.metaTitle || news.value?.title_h1 || 'Новость'
-	const description =
-		news.value?.seo?.metaDescription ?? news.value?.excerpt ?? ''
-	useHead({
-		title,
-		meta: [
-			{
-				name: 'description',
-				content: description
-			},
-			{ property: 'og:title', content: title },
-			{ property: 'og:description', content: description }
-		]
+if (error.value) {
+	showError({
+		statusCode: 404,
+		message: 'Новость не найдена'
 	})
+}
+
+useSeoMeta({
+	title: () => news.value?.seo?.metaTitle || news.value?.title_h1 || 'Новость',
+
+	description: () =>
+		news.value?.seo?.metaDescription ?? news.value?.excerpt ?? '',
+
+	ogTitle: () =>
+		news.value?.seo?.metaTitle || news.value?.title_h1 || 'Новость',
+
+	ogDescription: () =>
+		news.value?.seo?.metaDescription ?? news.value?.excerpt ?? ''
 })
 </script>
 
