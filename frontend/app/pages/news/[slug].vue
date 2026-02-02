@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-import { getNewsBySlug } from '@/composables/news'
+import { getNewsBySlug } from '~/services/news'
 
 const route = useRoute()
 const slug = String(route.params.slug || '')

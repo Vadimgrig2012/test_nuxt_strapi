@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-import { getNewsList } from '@/composables/news'
+import { getNewsList } from '~/services/news'
 
 const { data, pending, error } = await useAsyncData('news:list', () =>
 	getNewsList()
