@@ -7,7 +7,9 @@
 
 		<p v-if="news.excerpt">{{ news.excerpt }}</p>
 
-		<pre>{{ JSON.stringify(news.content, null, 2) }}</pre>
+		<div class="content">
+			{{ plainText }}
+		</div>
 	</section>
 	<Button to="/news">← Назад к новостям</Button>
 </template>
@@ -29,6 +31,15 @@ if (error.value) {
 		message: 'Новость не найдена'
 	})
 }
+
+const plainText = computed(() => {
+	if (!news.value?.content) return ''
+	return news.value.content
+		.map(block =>
+			(block.children || []).map(child => child.text || '').join('')
+		)
+		.join('\n')
+})
 
 useSeoMeta({
 	title: () => news.value?.seo?.metaTitle || news.value?.title_h1 || 'Новость',
@@ -52,8 +63,14 @@ useSeoMeta({
 }
 
 .content {
+	width: 50%;
 	margin-top: 2rem;
+	margin-left: 2rem;
 	font-size: 1.6rem;
 	line-height: 1.6;
+	white-space: pre-wrap;
+	padding: 2rem;
+	border: 0.2rem solid #ccc;
+	border-radius: 0.5rem;
 }
 </style>
