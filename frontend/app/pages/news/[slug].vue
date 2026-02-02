@@ -1,60 +1,39 @@
 <template>
 	<section
 		class="section"
-		v-if="item"
+		v-if="news"
 	>
-		<h1>{{ item.title }}</h1>
+		<h1>{{ news.title_h1 }}</h1>
 
-		<p class="meta">
-			<span>{{ item.publishedAt }}</span>
-		</p>
+		<p v-if="news.excerpt">{{ news.excerpt }}</p>
 
-		<div
-			class="content"
-			v-html="item.content"
-		/>
+		<pre>{{ JSON.stringify(news.content, null, 2) }}</pre>
 	</section>
-
-	<section
-		class="section"
-		v-else
-	>
-		<h1>Новость не найдена</h1>
-
-		<NuxtLink to="/news">Вернуться к новостям</NuxtLink>
-	</section>
-
 	<Button to="/news">← Назад к новостям</Button>
 </template>
 
 <script setup>
-import { getNewsBySlug } from '~/services/news'
-
+import { fetchNewsBySlug } from '@/services/news'
 const route = useRoute()
-const slug = String(route.params.slug || '')
+const slug = route.params.slug
 
-// Загружаем новость
-const { data } = await useAsyncData(
-	() => `news/${slug}`,
-	() => getNewsBySlug(slug)
+const { data: news, error } = await useAsyncData(`news:${slug}`, () =>
+	fetchNewsBySlug(slug)
 )
 
-// Если новость не нашлась тогда вызываем ошибку 404
-if (!data.value) {
-	throw createError({
-		statusCode: 404,
-		statusMessage: 'Not Found',
-		message: 'Новость не найдена'
-	})
+if (error.value) {
+	throw error.value
 }
 
-// Данные динамические и вычисляемые
-const item = computed(() => data.value)
+useSeoMeta(() => {
+	const metaTitle = news.value?.seo?.metaTitle || news.value?.title_h1
+	const metaDescription =
+		news.value?.seo?.metaDescription || news.value?.excerpt
 
-// SEO заголовки динамические
-useSeoMeta({
-	title: () => item.value?.seo?.title || item.value?.title || 'Новость',
-	description: () => item.value?.seo?.description || item.value?.excerpt || ''
+	return {
+		title: metaTitle,
+		description: metaDescription
+	}
 })
 </script>
 

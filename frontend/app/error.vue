@@ -41,21 +41,17 @@ const props = defineProps({
 
 const isDev = process.dev
 
-const statusCode = computed(() => props.error.statusCode || 500)
+const statusCode = computed(() => props.error?.statusCode || 500)
 
 const message = computed(() => {
+	// берём "длинный" текст из message (рекомендация h3), а statusMessage используем как запасной
+	const m = props.error?.message || props.error?.statusMessage
+
 	if (statusCode.value === 404) {
-		return (
-			'Страница не найдена' +
-			(props.error?.statusMessage ? `: ${props.error.statusMessage}` : '')
-		)
+		return m ? `Страница не найдена: ${m}` : 'Страница не найдена'
 	}
 
-	return (
-		props.error?.statusMessage ||
-		props.error?.message ||
-		'Произошла неизвестная ошибка. Попробуй повторить'
-	)
+	return m || 'Произошла неизвестная ошибка. Попробуй повторить'
 })
 
 const canRetry = computed(() => [500, 502, 503, 504].includes(statusCode.value))

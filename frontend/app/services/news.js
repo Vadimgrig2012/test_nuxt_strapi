@@ -1,25 +1,29 @@
-import { newsMock } from '@/data/news.mock'
+import { gqlRequest } from '@/services/graphql'
 
-function sleep(ms) {
-	return new Promise(resolve => setTimeout(resolve, ms))
+const NEWS_BY_SLUG_QUERY = /* #graphql */ `
+query NewsBySlug($slug: String!) {
+  newses(filters: { slug: { eq: $slug } }) {
+    title_h1
+    slug
+    excerpt
+    content
+    seo {
+      metaTitle
+      metaDescription
+    }
+  }
 }
+`
 
-export async function getNewsList() {
-	await sleep(5)
-	return newsMock
-		.slice()
-		.sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1))
-		.map(({ id, title, slug, excerpt, publishedAt }) => ({
-			id,
-			title,
-			slug,
-			excerpt,
-			publishedAt
-		}))
-}
+export async function fetchNewsBySlug(slug) {
+	const data = await gqlRequest(NEWS_BY_SLUG_QUERY, { slug })
+	const item = data?.newses?.[0] || null
 
-export async function getNewsBySlug(slug) {
-	await sleep(5)
-	const item = newsMock.find(item => item.slug === slug)
-	return item || null
+	if (!item) {
+		throw createError({
+			statusCode: 404,
+			message: 'Новость не найдена'
+		})
+	}
+	return item
 }

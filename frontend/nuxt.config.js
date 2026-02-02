@@ -7,18 +7,16 @@ export default defineNuxtConfig({
 	// Модули Nuxt (если нужны, можно потом добавить)
 	modules: [],
 
-	// Настройка Vite для алиасов
-	vite: {
-		resolve: {
-			alias: {
-				// Теперь '@scss' ссылается на папку assets/scss
-				'@scss': fileURLToPath(new URL('./assets/scss', import.meta.url))
-			}
+	// ⬇️ ВАЖНО: алиасы задаём ТОЛЬКО здесь
+	alias: {
+		// Алиас для scss в корне проекта
+		'@scss': fileURLToPath(new URL('./assets/scss', import.meta.url))
+	},
+
+	runtimeConfig: {
+		public: {
+			strapiUrl: process.env.NUXT_PUBLIC_STRAPI_URL || 'http://localhost:1337',
+			strapiGraphqlPath: process.env.NUXT_PUBLIC_STRAPI_GQL_PATH || '/graphql'
 		}
-		// Настройки сервера (если нужно отправить ссылку на сторонний доступ)
-		// server: {
-		// 	allowedHosts: 'all',
-		// 	host: true
-		// }
 	}
 })
