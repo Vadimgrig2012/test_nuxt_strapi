@@ -23,6 +23,8 @@
 
 		<NuxtLink to="/news">Вернуться к новостям</NuxtLink>
 	</section>
+
+	<Button to="/news">← Назад к новостям</Button>
 </template>
 
 <script setup>
