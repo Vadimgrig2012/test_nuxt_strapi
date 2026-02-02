@@ -7,7 +7,6 @@
 
 <script setup>
 const appConfig = useAppConfig()
-const route = useRoute()
 
 // Базовые теги для всего сайта
 useHead({
@@ -21,20 +20,5 @@ useHead({
 			href: '/favicon.png'
 		}
 	]
-})
-
-// Базовые SEO-дефолты (могут быть переопределены на страницах)
-useSeoMeta({
-	titleTemplate: titleChunk => {
-		const siteName = appConfig.site.name
-
-		return titleChunk ? `${titleChunk} - ${siteName}` : siteName
-	},
-	description: appConfig.site.description,
-
-	ogSiteName: appConfig.site.name,
-	ogType: 'website',
-	ogUrl: () => `${appConfig.site.url}${route.fullPath}`,
-	ogLocale: appConfig.site.locale
 })
 </script>

@@ -15,25 +15,41 @@
 <script setup>
 import { fetchNewsBySlug } from '@/services/news'
 const route = useRoute()
-const slug = route.params.slug
+const slug = computed(() => String(route.params.slug || ''))
 
-const { data: news, error } = await useAsyncData(`news:${slug}`, () =>
-	fetchNewsBySlug(slug)
+const { data: news } = await useAsyncData(
+	() => `news:${slug}`,
+	() => fetchNewsBySlug(slug.value),
+	{ watch: [slug] }
 )
 
-if (error.value) {
-	throw error.value
-}
+watchEffect(() => {
+	if (news.value === undefined) return
 
-useSeoMeta(() => {
-	const metaTitle = news.value?.seo?.metaTitle || news.value?.title_h1
-	const metaDescription =
-		news.value?.seo?.metaDescription || news.value?.excerpt
-
-	return {
-		title: metaTitle,
-		description: metaDescription
+	if (!news.value) {
+		showError({
+			statusCode: 404,
+			message: 'Новость не найдена'
+		})
 	}
+})
+
+watchEffect(() => {
+	if (!news.value) return
+	const title = news.value?.seo?.metaTitle || news.value?.title_h1 || 'Новость'
+	const description =
+		news.value?.seo?.metaDescription ?? news.value?.excerpt ?? ''
+	useHead({
+		title,
+		meta: [
+			{
+				name: 'description',
+				content: description
+			},
+			{ property: 'og:title', content: title },
+			{ property: 'og:description', content: description }
+		]
+	})
 })
 </script>
 

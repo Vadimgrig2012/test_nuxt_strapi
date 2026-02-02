@@ -11,27 +11,26 @@
 		>
 			<li
 				v-for="item in list"
-				:key="item.id"
+				:key="item.slug"
 				class="news-card"
 			>
 				<h2 class="news-card__title">
 					<NuxtLink :to="`/news/${item.slug}`">
-						{{ item.title }}
+						{{ item.title_h1 }}
 					</NuxtLink>
 				</h2>
 
 				<p class="news-card__excerpt">{{ item.excerpt }}</p>
-				<p class="news-card__date">{{ item.publishedAt }}</p>
 			</li>
 		</ul>
 	</section>
 </template>
 
 <script setup>
-// import { getNewsList } from '~/services/news'
+import { fetchNewsList } from '@/services/news'
 
 const { data, pending, error } = await useAsyncData('news:list', () =>
-	getNewsList()
+	fetchNewsList()
 )
 
 const list = computed(() => data.value || [])

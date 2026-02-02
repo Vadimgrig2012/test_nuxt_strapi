@@ -18,5 +18,18 @@ export default defineNuxtConfig({
 			strapiUrl: process.env.NUXT_PUBLIC_STRAPI_URL || 'http://localhost:1337',
 			strapiGraphqlPath: process.env.NUXT_PUBLIC_STRAPI_GQL_PATH || '/graphql'
 		}
+	},
+
+	app: {
+		head: {
+			titleTemplate: t => (t ? `${t} - Site Name` : 'Site Name'),
+			meta: [
+				{ name: 'description', content: 'Default description' }, // <-- БЕЗ key
+
+				{ property: 'og:site_name', content: 'Site Name', key: 'og:site_name' },
+				{ property: 'og:type', content: 'website', key: 'og:type' },
+				{ property: 'og:locale', content: 'ru_RU', key: 'og:locale' }
+			]
+		}
 	}
 })

@@ -1,25 +1,26 @@
 <template>
 	<main class="error">
-		<h1 class="error__title">Ошибка {{ statusCode }}</h1>
-		<p class="error__desc">
-			{{ message }}
-		</p>
+		<h1
+			v-if="statusCode === 404"
+			class="error__title"
+		>
+			404 - страница не найдена
+		</h1>
+		<h1
+			v-else
+			class="error__title"
+		>
+			Ошибка {{ statusCode }}
+		</h1>
+		<p v-if="statusCode === 404">Такой страницы не существует.</p>
+		<p v-else>Произошла ошибка. Попробуй обновить страницу позже.</p>
 
-		<div class="error__actions">
-			<button
-				type="button"
-				@click="goHome"
-			>
-				На главную
-			</button>
-			<button
-				v-if="canRetry"
-				type="button"
-				@click="tryAgain"
-			>
-				Повторить
-			</button>
-		</div>
+		<button
+			type="button"
+			@click="goHome"
+		>
+			На главную
+		</button>
 
 		<details
 			v-if="isDev"
@@ -43,25 +44,8 @@ const isDev = process.dev
 
 const statusCode = computed(() => props.error?.statusCode || 500)
 
-const message = computed(() => {
-	// берём "длинный" текст из message (рекомендация h3), а statusMessage используем как запасной
-	const m = props.error?.message || props.error?.statusMessage
-
-	if (statusCode.value === 404) {
-		return m ? `Страница не найдена: ${m}` : 'Страница не найдена'
-	}
-
-	return m || 'Произошла неизвестная ошибка. Попробуй повторить'
-})
-
-const canRetry = computed(() => [500, 502, 503, 504].includes(statusCode.value))
-
 function goHome() {
 	clearError({ redirect: '/' })
-}
-
-function tryAgain() {
-	clearError()
 }
 </script>
 
