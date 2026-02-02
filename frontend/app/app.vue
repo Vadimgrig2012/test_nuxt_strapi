@@ -19,9 +19,9 @@ useHead({
 			type: 'image/png',
 			href: '/favicon.png'
 		}
-	],
-	titleTemplate: titleChunk => {
-		return titleChunk ? `${titleChunk} - Тестовый сайт` : 'Тестовый сайт'
-	}
+	]
+	// titleTemplate: titleChunk => {
+	// 	return titleChunk ? `${titleChunk} - Тестовый сайт` : 'Тестовый сайт'
+	// }
 })
 </script>

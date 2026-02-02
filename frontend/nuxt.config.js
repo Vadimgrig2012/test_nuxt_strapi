@@ -22,7 +22,11 @@ export default defineNuxtConfig({
 
 	app: {
 		head: {
-			titleTemplate: t => (t ? `${t} - Site Name` : 'Site Name'),
+			// titleTemplate: t => (t ? `${t} - Тестовый сайт` : 'Тестовый сайт'),
+			// titleTemplate: titleChunk => {
+			// 	return titleChunk ? `${titleChunk} - Тестовый сайт` : 'Тестовый сайт'
+			// },
+			titleTemplate: '%s - Тестовый сайт',
 			meta: [
 				{ name: 'description', content: 'Default description' }, // <-- БЕЗ key
 
