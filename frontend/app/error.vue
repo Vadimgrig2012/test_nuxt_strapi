@@ -1,29 +1,15 @@
 <template>
 	<main class="error">
-		<h1
-			v-if="is404"
-			class="error__title"
-		>
-			404 - страница не найдена
+		<h1 class="error__title">
+			{{ is404 ? '404 — страница не найдена' : `Ошибка ${code}` }}
 		</h1>
-		<h1
-			v-else
-			class="error__title"
-		>
-			Ошибка {{ statusCode }}
-		</h1>
-		<p v-if="is404">
-			{{ display404Message }}
-		</p>
-		<p v-else>
-			{{
-				displayMessage || 'Произошла ошибка. Попробуй обновить страницу позже.'
-			}}
+		<p>
+			{{ message }}
 		</p>
 
 		<button
 			type="button"
-			@click="goHome"
+			@click="clearError({ redirect: '/' })"
 		>
 			На главную
 		</button>
@@ -47,50 +33,34 @@ const props = defineProps({
 })
 
 const isDev = process.dev
+const code = computed(() => Number(props.error?.statusCode || 500))
+const is404 = computed(() => code.value === 404)
 
-const statusCode = computed(() => props.error?.statusCode || 500)
-const is404 = computed(() => statusCode.value === 404)
-
-/**
- * Берём сообщение, которое пришло в ошибке.
- * Важно: сначала message, потом statusMessage (ты уже сделал правильно).
- */
-const rawMessage = computed(
+const raw = computed(
 	() => props.error?.message || props.error?.statusMessage || ''
 )
 
-/**
- * У Nuxt для "роут не найден" часто message = "Page not found: /xxx".
- * Мы НЕ хотим это показывать пользователю.
- */
-const isNuxtRoute404Message = computed(() => {
-	const msg = rawMessage.value
-	return typeof msg === 'string' && msg.startsWith('Page not found:')
+const message = computed(() => {
+	if (is404.value) {
+		if (
+			typeof raw.value === 'string' &&
+			raw.value.startsWith('Page not found')
+		) {
+			return 'Запрашиваемая страница не существует.'
+		}
+		return raw.value || 'Такой страницы не существует.'
+	}
+	return (
+		raw.value || 'Произошла ошибка на сервере. Пожалуйста, попробуйте позже.'
+	)
 })
 
-/**
- * Сообщение для не-404 ошибок (500 и т.д.)
- */
-const displayMessage = computed(() => rawMessage.value)
-
-/**
- * Сообщение для 404:
- * - если это системный "Page not found: /xxx" → показываем дефолтный человеко-текст
- * - если это твой 404 (например "Новость не найдена") → показываем его
- */
-const display404Message = computed(() => {
-	if (isNuxtRoute404Message.value) return 'Такой страницы не существует.'
-	return rawMessage.value || 'Такой страницы не существует.'
-})
-
-function goHome() {
-	clearError({ redirect: '/' })
-}
+const errorTitle = computed(() =>
+	is404.value ? '404 — страница не найдена' : `Ошибка ${statusCode.value}`
+)
 
 useHead(() => ({
-	title: is404.value
-		? '404 — страница не найдена'
-		: `Ошибка ${statusCode.value}`,
+	title: errorTitle.value,
 	titleTemplate: '%s'
 }))
 </script>

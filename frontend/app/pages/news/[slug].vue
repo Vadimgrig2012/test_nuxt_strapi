@@ -25,8 +25,8 @@ const { data: news, error } = await useAsyncData(
 	{ watch: [slug] }
 )
 
-if (error.value) {
-	showError({
+if (error.value || !news.value) {
+	throw createError({
 		statusCode: 404,
 		message: 'Новость не найдена'
 	})
