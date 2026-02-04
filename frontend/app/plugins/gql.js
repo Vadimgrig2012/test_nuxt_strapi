@@ -13,8 +13,7 @@ export default defineNuxtPlugin(() => {
 			const message = res.errors.map(e => e.message).join('\n')
 			throw createError({
 				statusCode: 500,
-				statusMessage: 'Graphql error',
-				message
+				message: `Graphql error: ${message}`
 			})
 		}
 
