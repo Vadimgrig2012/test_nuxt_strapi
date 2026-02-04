@@ -19,8 +19,10 @@
 <script setup>
 import { fetchContactPage } from '@/services/contact'
 
+const { $gqlRequest } = useNuxtApp()
+
 const { data, pending, error } = await useAsyncData('contact:page', () =>
-	fetchContactPage()
+	fetchContactPage($gqlRequest)
 )
 
 const plainText = computed(() => {

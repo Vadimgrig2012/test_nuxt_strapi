@@ -1,5 +1,3 @@
-import { gqlRequest } from '@/services/graphql'
-
 const CONTACT_PAGE_QUERY = /* #graphql */ `
 query ContactPage {
 	contact {
@@ -16,7 +14,7 @@ query ContactPage {
 }
 `
 
-export async function fetchContactPage() {
+export async function fetchContactPage(gqlRequest) {
 	const data = await gqlRequest(CONTACT_PAGE_QUERY)
 	return data?.contact || null
 }

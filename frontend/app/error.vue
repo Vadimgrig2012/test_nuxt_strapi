@@ -56,7 +56,7 @@ const message = computed(() => {
 })
 
 const errorTitle = computed(() =>
-	is404.value ? '404 — страница не найдена' : `Ошибка ${statusCode.value}`
+	is404.value ? '404 — страница не найдена' : `Ошибка ${code.value}`
 )
 
 useHead(() => ({

@@ -20,7 +20,7 @@
 				>
 					<h2 class="news-card__title">{{ item.title_h1 }}</h2>
 					<p class="news-card__date">
-						Опубликовано: {{ new Date(item.createdAt).toLocaleDateString() }}
+						Опубликовано: {{ new Date(item.published).toLocaleDateString() }}
 					</p>
 					<p class="news-card__excerpt">{{ item.excerpt }}</p>
 				</NuxtLink>
@@ -32,8 +32,10 @@
 <script setup>
 import { fetchNewsList } from '@/services/news'
 
+const { $gqlRequest } = useNuxtApp()
+
 const { data, pending, error } = await useAsyncData('news:list', () =>
-	fetchNewsList()
+	fetchNewsList($gqlRequest)
 )
 
 const list = computed(() => data.value || [])

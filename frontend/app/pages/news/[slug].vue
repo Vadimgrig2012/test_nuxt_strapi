@@ -5,32 +5,68 @@
 	>
 		<h1>{{ news.title_h1 }}</h1>
 
-		<p v-if="news.excerpt">{{ news.excerpt }}</p>
+		<p>{{ news.excerpt }}</p>
+
+		<nav
+			class="news-nav"
+			aria-label="Навигация по новостям"
+		>
+			<NuxtLink
+				v-if="prev"
+				class="news-nav__link"
+				:to="`/news/${prev.slug}`"
+			>
+				← Предыдущая: {{ prev.title_h1 }}
+			</NuxtLink>
+
+			<NuxtLink
+				v-if="next"
+				class="news-nav__link"
+				:to="`/news/${next.slug}`"
+			>
+				Следующая: {{ next.title_h1 }} →
+			</NuxtLink>
+		</nav>
 
 		<div class="content">
 			{{ plainText }}
 		</div>
 	</section>
+
+	<p v-else>Новостей пока нет...</p>
 	<Button to="/news">← Назад к новостям</Button>
 </template>
 
 <script setup>
-import { fetchNewsBySlug } from '@/services/news'
+import { fetchNewsBySlug, fetchNewsNeighborsByPublished } from '@/services/news'
 const route = useRoute()
-const slug = computed(() => String(route.params.slug || ''))
+const { $gqlRequest } = useNuxtApp()
+const slug = computed(() => route.params.slug)
 
-const { data: news, error } = await useAsyncData(
+const { data, error } = await useAsyncData(
 	() => `news:${slug.value}`,
-	() => fetchNewsBySlug(slug.value),
-	{ watch: [slug] }
+	async () => {
+		if (!slug.value) return null
+		const news = await fetchNewsBySlug($gqlRequest, String(slug.value))
+		const { prev, next } = await fetchNewsNeighborsByPublished(
+			$gqlRequest,
+			news.published
+		)
+		return { news, prev, next }
+	}
 )
 
-if (error.value || !news.value) {
-	throw createError({
-		statusCode: 404,
-		message: 'Новость не найдена'
-	})
+if (error.value) {
+	throw error.value
 }
+
+if (!data.value?.news) {
+	throw createError({ statusCode: 404, message: 'Новость не найдена' })
+}
+
+const news = computed(() => data.value.news)
+const prev = computed(() => data.value.prev)
+const next = computed(() => data.value.next)
 
 const plainText = computed(() => {
 	if (!news.value?.content) return ''
