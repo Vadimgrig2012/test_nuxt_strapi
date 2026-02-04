@@ -30,11 +30,11 @@ import { mainNav } from '@/config/navigation.js'
 <style scoped lang="scss">
 .header__link.is-active {
 	text-decoration: underline;
-	color: blueviolet;
+	color: rgb(119, 80, 156);
 }
 
 .header {
-	padding: 1.5rem 2rem;
+	padding: 1.5rem 5rem;
 	margin-bottom: 5rem;
 	border-bottom: 0.1rem solid #ccc;
 
@@ -48,7 +48,7 @@ import { mainNav } from '@/config/navigation.js'
 	&__logo {
 		font-size: 3rem;
 		font-weight: 700;
-		color: blue;
+		color: rgb(86, 86, 182);
 		text-decoration: none;
 	}
 

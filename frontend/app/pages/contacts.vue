@@ -6,7 +6,7 @@
 		<h1>{{ data?.title_h1 }}</h1>
 		<p>Это страница контактов</p>
 
-		<div class="content">{{ plainText }}</div>
+		<div class="content">{{ richtext }}</div>
 
 		<div class="contact-info">
 			<div class="email">{{ data?.email }}</div>
@@ -18,6 +18,7 @@
 
 <script setup>
 import { fetchContactPage } from '@/services/contact'
+import { toRichtext } from '@/utils/richtext'
 
 const { $gqlRequest } = useNuxtApp()
 
@@ -25,21 +26,21 @@ const { data, pending, error } = await useAsyncData('contact:page', () =>
 	fetchContactPage($gqlRequest)
 )
 
-const plainText = computed(() => {
-	if (!data.value?.content) return ''
-	return data.value.content
-		.map(block =>
-			(block.children || []).map(child => child.text || '').join('')
-		)
-		.join('\n\n')
-})
+const richtext = computed(() => toRichtext(data.value?.content))
+
+if (error.value) throw error.value
+if (!data.value)
+	throw createError({
+		statusCode: 404,
+		message: 'Страница контактов не найдена'
+	})
 
 useSeoMeta({
 	title: () => data.value?.seo?.metaTitle || data.value?.title_h1 || 'Контакты',
 
 	description: () =>
 		data.value?.seo?.metaDescription ??
-		data.value?.content ??
+		plainText.value ??
 		'Описание страницы контактов',
 
 	ogTitle: () =>
@@ -54,6 +55,8 @@ useSeoMeta({
 .content {
 	margin: 2rem 0;
 	white-space: pre-wrap;
+	display: flex;
+	width: 50%;
 }
 
 .contact-info {

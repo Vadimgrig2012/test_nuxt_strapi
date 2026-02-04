@@ -9,7 +9,12 @@
 
 		<footer class="footer">
 			<div class="container footer__inner">
-				<div class="footer__logo">Logo</div>
+				<NuxtLink
+					class="footer__logo"
+					to="/"
+				>
+					Logo
+				</NuxtLink>
 				<p class="footer__copy">© {{ year }}</p>
 			</div>
 		</footer>
@@ -30,7 +35,7 @@ const year = useState('year', () => new Date().getFullYear())
 
 .footer {
 	background: #ccc;
-	color: #fff;
+	color: #979797;
 	padding: 2rem 0;
 	text-align: center;
 }
@@ -39,5 +44,9 @@ const year = useState('year', () => new Date().getFullYear())
 	font-weight: bold;
 	color: rgb(120, 120, 161);
 	font-size: 3rem;
+	transition: color 0.3s ease;
+	&:hover {
+		color: rgb(86, 86, 182);
+	}
 }
 </style>

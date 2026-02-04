@@ -1,6 +1,6 @@
 export const mainNav = [
 	{
-		label: ' Главная',
+		label: 'Главная',
 		to: '/'
 	},
 	{

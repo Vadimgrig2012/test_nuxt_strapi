@@ -29,7 +29,7 @@
 		</nav>
 
 		<div class="content">
-			{{ plainText }}
+			{{ richtext }}
 		</div>
 	</section>
 
@@ -39,6 +39,8 @@
 
 <script setup>
 import { fetchNewsBySlug, fetchNewsNeighborsByPublished } from '@/services/news'
+import { toRichtext } from '@/utils/richtext'
+
 const route = useRoute()
 const { $gqlRequest } = useNuxtApp()
 const slug = computed(() => route.params.slug)
@@ -56,6 +58,12 @@ const { data, error } = await useAsyncData(
 	}
 )
 
+const news = computed(() => data.value.news)
+const prev = computed(() => data.value.prev)
+const next = computed(() => data.value.next)
+
+const richtext = computed(() => toRichtext(news.value?.content))
+
 if (error.value) {
 	throw error.value
 }
@@ -63,19 +71,6 @@ if (error.value) {
 if (!data.value?.news) {
 	throw createError({ statusCode: 404, message: 'Новость не найдена' })
 }
-
-const news = computed(() => data.value.news)
-const prev = computed(() => data.value.prev)
-const next = computed(() => data.value.next)
-
-const plainText = computed(() => {
-	if (!news.value?.content) return ''
-	return news.value.content
-		.map(block =>
-			(block.children || []).map(child => child.text || '').join('')
-		)
-		.join('\n\n')
-})
 
 useSeoMeta({
 	title: () => news.value?.seo?.metaTitle || news.value?.title_h1 || 'Новость',
@@ -98,10 +93,16 @@ useSeoMeta({
 	opacity: 0.7;
 }
 
+.news-nav {
+	margin-top: 3rem;
+	display: flex;
+	justify-content: space-between;
+	width: 50%;
+}
+
 .content {
 	width: 50%;
 	margin-top: 2rem;
-	margin-left: 2rem;
 	font-size: 1.6rem;
 	line-height: 1.6;
 	white-space: pre-wrap;

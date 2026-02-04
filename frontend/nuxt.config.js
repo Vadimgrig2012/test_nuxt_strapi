@@ -7,10 +7,9 @@ export default defineNuxtConfig({
 	// Модули Nuxt (если нужны, можно потом добавить)
 	modules: [],
 
-	// ⬇️ ВАЖНО: алиасы задаём ТОЛЬКО здесь
 	alias: {
 		// Алиас для scss в корне проекта
-		'@scss': fileURLToPath(new URL('./assets/scss', import.meta.url))
+		'@scss': fileURLToPath(new URL('./app/assets/scss', import.meta.url))
 	},
 
 	runtimeConfig: {
@@ -25,7 +24,11 @@ export default defineNuxtConfig({
 			title: 'Тестовый сайт',
 			titleTemplate: '%s - Тестовый сайт',
 			meta: [
-				{ name: 'description', content: 'Default description' }, // <-- БЕЗ key
+				{
+					name: 'description',
+					content: 'Default description',
+					key: 'description'
+				},
 
 				{ property: 'og:site_name', content: 'Site Name', key: 'og:site_name' },
 				{ property: 'og:type', content: 'website', key: 'og:type' },
