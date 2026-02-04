@@ -2,10 +2,11 @@ import { gqlRequest } from '@/services/graphql'
 
 const NEWS_LIST = /* #graphql */ `
 query NewsList {
-  newses {
+  newses (sort: ["createdAt:desc"]) {
     title_h1
     slug
     excerpt
+    createdAt
   }
 }
 `

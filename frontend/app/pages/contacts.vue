@@ -29,7 +29,7 @@ const plainText = computed(() => {
 		.map(block =>
 			(block.children || []).map(child => child.text || '').join('')
 		)
-		.join('\n')
+		.join('\n\n')
 })
 
 useSeoMeta({
@@ -58,16 +58,17 @@ useSeoMeta({
 	display: flex;
 	flex-direction: column;
 	width: 50%;
-	margin-left: 2rem;
 	margin-top: 2rem;
+	padding: 2rem;
 	font-weight: bold;
-	border: 0.2rem solid #ccc;
+	border: 0.1rem solid #ccc;
 	border-radius: 0.5rem;
 
 	.email,
 	.phone,
 	.address {
 		margin-bottom: 0.5rem;
+		margin-left: 1.5rem;
 	}
 }
 </style>

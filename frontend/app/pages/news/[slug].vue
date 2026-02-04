@@ -38,7 +38,7 @@ const plainText = computed(() => {
 		.map(block =>
 			(block.children || []).map(child => child.text || '').join('')
 		)
-		.join('\n')
+		.join('\n\n')
 })
 
 useSeoMeta({
@@ -70,7 +70,7 @@ useSeoMeta({
 	line-height: 1.6;
 	white-space: pre-wrap;
 	padding: 2rem;
-	border: 0.2rem solid #ccc;
+	border: 0.1rem solid #ccc;
 	border-radius: 0.5rem;
 }
 </style>

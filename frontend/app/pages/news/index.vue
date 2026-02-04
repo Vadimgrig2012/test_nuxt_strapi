@@ -14,13 +14,16 @@
 				:key="item.slug"
 				class="news-card"
 			>
-				<h2 class="news-card__title">
-					<NuxtLink :to="`/news/${item.slug}`">
-						{{ item.title_h1 }}
-					</NuxtLink>
-				</h2>
-
-				<p class="news-card__excerpt">{{ item.excerpt }}</p>
+				<NuxtLink
+					:to="`/news/${item.slug}`"
+					class="news-card__link"
+				>
+					<h2 class="news-card__title">{{ item.title_h1 }}</h2>
+					<p class="news-card__date">
+						Опубликовано: {{ new Date(item.createdAt).toLocaleDateString() }}
+					</p>
+					<p class="news-card__excerpt">{{ item.excerpt }}</p>
+				</NuxtLink>
 			</li>
 		</ul>
 	</section>
@@ -50,14 +53,23 @@ useSeoMeta({
 }
 
 .news-card {
-	padding: 2rem;
-	border: 0.2rem solid #ccc;
+	border: 0.1rem solid #ccc;
 	border-radius: 0.5rem;
+	display: flex;
 }
 
 .news-card__title {
 	font-size: 2.4rem;
 	line-height: 1.2;
+}
+
+.news-card__link {
+	padding: 2rem;
+	text-decoration: none;
+	color: inherit;
+	display: block;
+	height: 100%;
+	flex: 1;
 }
 
 .news-card__excerpt {
