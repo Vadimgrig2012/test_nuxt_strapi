@@ -47,7 +47,7 @@ const { data, error } = await useAsyncData(
 	() => `news:${slug.value}`,
 	async () => {
 		if (!slug.value) return null
-		const news = await fetchNewsBySlug($gqlRequest, String(slug.value))
+		const news = await fetchNewsBySlug($gqlRequest, slug.value)
 		const { prev, next } = await fetchNewsNeighborsByPublished(
 			$gqlRequest,
 			news.published
