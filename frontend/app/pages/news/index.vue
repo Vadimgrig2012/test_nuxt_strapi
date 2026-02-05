@@ -20,7 +20,7 @@
 				>
 					<h2 class="news-card__title">{{ item.title_h1 }}</h2>
 					<p class="news-card__date">
-						Опубликовано: {{ new Date(item.published).toLocaleDateString() }}
+						Опубликовано: {{ localDate(item.published) }}
 					</p>
 					<p class="news-card__excerpt">{{ item.excerpt }}</p>
 				</NuxtLink>
@@ -31,6 +31,7 @@
 
 <script setup>
 import { fetchNewsList } from '@/services/news'
+import { localDate } from '@/utils/localdate'
 
 const { $gqlRequest } = useNuxtApp()
 
