@@ -11,21 +11,24 @@
 			class="news-nav"
 			aria-label="Навигация по новостям"
 		>
-			<NuxtLink
-				v-if="prev"
-				class="news-nav__link"
-				:to="`/news/${prev.slug}`"
-			>
-				← Предыдущая: {{ prev.title_h1 }}
-			</NuxtLink>
-
-			<NuxtLink
-				v-if="next"
-				class="news-nav__link"
-				:to="`/news/${next.slug}`"
-			>
-				Следующая: {{ next.title_h1 }} →
-			</NuxtLink>
+			<div class="news-nav__left">
+				<NuxtLink
+					v-if="prev"
+					class="news-nav__link"
+					:to="`/news/${prev.slug}`"
+				>
+					← Предыдущая: {{ prev.title_h1 }}
+				</NuxtLink>
+			</div>
+			<div class="news-nav__right">
+				<NuxtLink
+					v-if="next"
+					class="news-nav__link"
+					:to="`/news/${next.slug}`"
+				>
+					Следующая: {{ next.title_h1 }} →
+				</NuxtLink>
+			</div>
 		</nav>
 
 		<div class="content">
@@ -87,17 +90,20 @@ useSeoMeta({
 </script>
 
 <style scoped lang="scss">
-.meta {
-	margin-top: 1rem;
-	font-size: 1.4rem;
-	opacity: 0.7;
-}
-
 .news-nav {
 	margin-top: 3rem;
 	display: flex;
-	justify-content: space-between;
 	width: 50%;
+	&__left {
+		display: flex;
+		justify-content: flex-start;
+		width: 50%;
+	}
+	&__right {
+		display: flex;
+		justify-content: flex-end;
+		width: 50%;
+	}
 }
 
 .content {
