@@ -40,7 +40,7 @@ useSeoMeta({
 
 	description: () =>
 		data.value?.seo?.metaDescription ??
-		plainText.value ??
+		richtext.value ??
 		'Описание страницы контактов',
 
 	ogTitle: () =>
