@@ -1,21 +1,16 @@
 export function toRichtext(blocks) {
-	if (!blocks) return ''
+	if (!Array.isArray(blocks)) return ''
 
-	const arr = Array.isArray(blocks) ? blocks : [blocks]
+	return blocks
+		.map(block => {
+			const children = Array.isArray(block?.children) ? block.children : []
+			const text = children
+				.map(ch => (typeof ch?.text === 'string' ? ch.text : ''))
+				.join('')
+				.trim()
 
-	const getTextFromChildren = children => {
-		if (!Array.isArray(children)) return ''
-		return children
-			.map(ch => (typeof ch?.text === 'string' ? ch.text : ''))
-			.join('')
-			.trim()
-	}
-
-	// Берём только параграфы/заголовки как “абзацы” (одна строка текста)
-	const paragraphs = arr
-		.map(block => getTextFromChildren(block?.children))
-		.map(t => t.replace(/\s+/g, ' ').trim())
+			return text
+		})
 		.filter(Boolean)
-
-	return paragraphs.join('\n\n')
+		.join('\n\n')
 }
