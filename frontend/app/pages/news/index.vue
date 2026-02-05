@@ -39,6 +39,7 @@ const { data, pending, error } = await useAsyncData('news:list', () =>
 )
 
 const list = computed(() => data.value || [])
+
 useSeoMeta({
 	title: 'Новости',
 	description: 'Архив новостей'
@@ -51,7 +52,6 @@ useSeoMeta({
 	gap: 2rem;
 	margin-top: 2rem;
 	width: 50%;
-	margin-left: 2rem;
 }
 
 .news-card {

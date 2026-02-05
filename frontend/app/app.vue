@@ -20,8 +20,5 @@ useHead({
 			href: '/favicon.png'
 		}
 	]
-	// titleTemplate: titleChunk => {
-	// 	return titleChunk ? `${titleChunk} - Тестовый сайт` : 'Тестовый сайт'
-	// }
 })
 </script>
