@@ -3,15 +3,16 @@
 		<h1 class="error__title">
 			{{ is404 ? '404 — страница не найдена' : `Ошибка ${code}` }}
 		</h1>
-		<p>
+		<p class="error__message">
 			{{ message }}
 		</p>
 
 		<button
 			type="button"
+			class="error__btn"
 			@click="clearError({ redirect: '/' })"
 		>
-			На главную
+			← На главную
 		</button>
 
 		<details
@@ -81,7 +82,26 @@ useHead(() => ({
 	margin-top: 1.5rem;
 }
 
+.error__message {
+	margin: 2rem 0;
+	font-weight: 600;
+}
+
 .error__pre {
 	white-space: pre-wrap;
+}
+
+.error__btn {
+	padding: 0.5rem 1rem;
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	border-radius: 0.3rem;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+
+	&:hover {
+		background-color: #0f6ed3;
+	}
 }
 </style>

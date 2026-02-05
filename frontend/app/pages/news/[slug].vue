@@ -61,9 +61,9 @@ const { data, error } = await useAsyncData(
 	}
 )
 
-const news = computed(() => data.value.news)
-const prev = computed(() => data.value.prev)
-const next = computed(() => data.value.next)
+const news = computed(() => data.value?.news ?? null)
+const prev = computed(() => data.value?.prev ?? null)
+const next = computed(() => data.value?.next ?? null)
 
 const richtext = computed(() => toRichtext(news.value?.content))
 
@@ -71,7 +71,7 @@ if (error.value) {
 	throw error.value
 }
 
-if (!data.value?.news) {
+if (!news.value) {
 	throw createError({ statusCode: 404, message: 'Новость не найдена' })
 }
 

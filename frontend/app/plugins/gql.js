@@ -18,7 +18,7 @@ export default defineNuxtPlugin(() => {
 
 				throw createError({
 					statusCode: 500,
-					message: `GraphQL error: ${message || 'Unknown GraphQL error'}`
+					message: `GraphQL error: ${operationName}: ${message}`
 				})
 			}
 

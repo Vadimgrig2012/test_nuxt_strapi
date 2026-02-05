@@ -46,8 +46,7 @@ useSeoMeta({
 	ogTitle: () =>
 		data.value?.seo?.metaTitle || data.value?.title_h1 || 'Контакты',
 
-	ogDescription: () =>
-		data.value?.seo?.metaDescription ?? data.value?.content ?? ''
+	ogDescription: () => data.value?.seo?.metaDescription ?? richtext.value ?? ''
 })
 </script>
 
