@@ -59,6 +59,11 @@ useSeoMeta({
 	border: 0.1rem solid #ccc;
 	border-radius: 0.5rem;
 	display: flex;
+	transition: background-color 0.3s ease;
+
+	&:hover {
+		background-color: #f0f0f0;
+	}
 }
 
 .news-card__title {
